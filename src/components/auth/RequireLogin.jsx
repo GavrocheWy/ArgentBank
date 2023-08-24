@@ -7,6 +7,10 @@ const RequireLogin = () => {
 
     const { isLogged } = useSelector((state) => state.loginStatus)
 
+    const dispatch = useDispatch()
+    const token = localStorage.getItem('token')
+    token && dispatch(logIn())
+
     return (
         isLogged ? <Outlet /> : <Navigate to="/" />
     )

@@ -1,10 +1,27 @@
+// Dependencies
+import { useDispatch, useSelector } from 'react-redux'
+import { getUserDatas } from '../api/getUserDatas'
+import { setFirstName, setLastName } from '../features/profile/profile'
+// Components 
+import ProfileHeader from '../components/profile/ProfileHeader'
+
 const Profil = () => {
+
+    const { token } = useSelector((state) => state.loginStatus)
+    const localStorageToken = localStorage.getItem('token')
+    const dispatch = useDispatch()
+
+    // Get User Infos
+    getUserDatas(token ? token : localStorageToken)
+        .then((data) => {
+            dispatch(setFirstName(data.body.firstName))
+            dispatch(setLastName(data.body.lastName))
+        })
+        .catch((error) => console.log(error.response.data.message))
+
     return (
         <main className="main bg-dark">
-            <div className="header">
-                <h1>Welcome back<br />Tony Jarvis!</h1>
-                <button className="edit-button">Edit Name</button>
-            </div>
+            <ProfileHeader />
             <h2 className="sr-only">Accounts</h2>
             <section className="account">
                 <div className="account-content-wrapper">

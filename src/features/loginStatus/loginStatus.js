@@ -4,6 +4,7 @@ const initialState = {
     isLoading: false,
     isLogged: false,
     error: '',
+    token: ''
 }
 
 const loginStatusSlice = createSlice({
@@ -14,17 +15,17 @@ const loginStatusSlice = createSlice({
             state.isLoading = true
         },
         setError: (state, action) => {
-            state.isLoading = false
             state.error = action.payload
         },
         logIn: (state) => {
-            state.isLoading = false
             state.isLogged = true
-            state.error = ''
         },
         logOut: (state) => {
             state.isLogged = false
         },
+        setToken: (state, action) => {
+            state.token = action.payload
+        }
     },
 })
 
@@ -35,6 +36,7 @@ export const {
     setError,
     logIn,
     logOut,
+    setToken
 } = actions
 
 export default reducer

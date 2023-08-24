@@ -2,26 +2,43 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
-import { authentify } from '../api/authentify'
-import { setLoading, setError, logIn, logOut } from '../features/loginStatus/loginStatus'
+import { getUserToken } from '../api/getUserToken'
+import { setLoading, setError, logIn, logOut, setToken } from '../features/loginStatus/loginStatus'
 
 const Login = () => {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [rememberMe, setRememberMe] = useState(true)
     const { isLoading, error } = useSelector((state) => state.loginStatus)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    // Connect
     const handleSubmit = async (e) => {
         e && e.preventDefault()
         try {
-            const user = await authentify({ email, password })
+            const user = await getUserToken({ email, password })
+            
+            if (!user?.body?.token) {
+                console.log("La donnée n'a pas pu être récupérée")
+                return;
+            }
+
+            const token = user.body.token
+
+            rememberMe ? localStorage.setItem('token', token) : localStorage.removeItem('token')
+
+            dispatch(setToken(token))
+
             dispatch(logIn())
             navigate('/profile')
-        } catch (err) {
-            console.log(err)
-            dispatch(setError(err.response.data.message))
+
+        } catch (error) {
+
+            console.log(error)
+            dispatch(setError(error.response.data.message))
+            
         }
     }
 
@@ -50,7 +67,13 @@ const Login = () => {
                         />
                     </div>
                     <div className="input-remember">
-                        <input type="checkbox" id="remember-me" /><label htmlFor="remember-me">Remember me</label>
+                        <input
+                            type="checkbox"
+                            id="remember-me"
+                            checked={rememberMe}
+                            onChange={() => setRememberMe(!rememberMe)}
+                        />
+                        <label htmlFor="remember-me">Remember me</label>
                     </div>
                     <button className="sign-in-button">Sign In</button>
                 </form>
