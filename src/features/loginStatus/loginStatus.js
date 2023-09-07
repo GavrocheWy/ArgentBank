@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    isLoading: false,
     isLogged: false,
     error: '',
     token: ''
@@ -11,9 +10,6 @@ const loginStatusSlice = createSlice({
     name: 'loginStatus',
     initialState,
     reducers: {
-        setLoading: (state) => {
-            state.isLoading = true
-        },
         setError: (state, action) => {
             state.error = action.payload
         },
@@ -32,7 +28,6 @@ const loginStatusSlice = createSlice({
 const { actions, reducer } = loginStatusSlice
 
 export const {
-    setLoading,
     setError,
     logIn,
     logOut,

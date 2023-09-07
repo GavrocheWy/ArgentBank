@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    isLoading: false,
     firstName: '',
     lastName: '',
     error: '',
@@ -11,9 +10,6 @@ const profileSlice = createSlice({
     name: "profile",
     initialState,
     reducers: {
-        setLoading: (state, action) => {
-            state.isLoading = action.payload
-        },
         setError: (state, action) => {
             state.error = action.payload
         },
@@ -23,7 +19,7 @@ const profileSlice = createSlice({
         setLastName: (state, action) => {
             state.lastName = action.payload
         },
-        removeProfile: (state) => {
+        clearProfile: (state) => {
             state.firstName = ''
             state.lastName = ''
         }
@@ -33,11 +29,10 @@ const profileSlice = createSlice({
 const { actions, reducer } = profileSlice
 
 export const {
-    setLoading,
     setError,
     setFirstName,
     setLastName,
-    removeProfile,
+    clearProfile,
 } = actions
 
 export default reducer

@@ -2,27 +2,36 @@
 import { NavLink } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
+import React from 'react'
 import { logOut } from '../../features/loginStatus/loginStatus'
+import { clearProfile } from '../../features/profile/profile'
 
 const AuthControls = () => {
 
     const { isLogged } = useSelector((state) => state.loginStatus)
+    const { firstName, lastName } = useSelector((state) => state.profile)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const logout = () => {
         localStorage.clear()
+        dispatch(clearProfile())
         dispatch(logOut())
         navigate('/')
     }
 
     return (
-        <div>
+        <div className='auth-controls'>
             {isLogged ?
-                <button onClick={() => logout()} className="main-nav-item">
-                    <i className="fa fa-user-circle"></i>
-                    Sign Out
-                </button>
+                <React.Fragment>
+                    <NavLink to="/profile">
+                        {firstName + ' ' + lastName}
+                    </NavLink>
+                    <button onClick={() => logout()} className="main-nav-item">
+                        <i className="fa-solid fa-arrow-right-from-bracket"></i>
+                        Sign Out
+                    </button>
+                </React.Fragment>
                 :
                 <NavLink className="main-nav-item" to="/login">
                     <i className="fa fa-user-circle"></i>
