@@ -24,7 +24,8 @@ const AuthControls = () => {
         <div className='auth-controls'>
             {isLogged ?
                 <React.Fragment>
-                    <NavLink to="/profile">
+                    <NavLink className="main-nav-item" to="/profile">
+                        <i className="fa fa-user-circle"></i>
                         {firstName}
                     </NavLink>
                     <button onClick={() => logout()} className="main-nav-item">
