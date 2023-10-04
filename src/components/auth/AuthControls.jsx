@@ -9,7 +9,7 @@ import { clearProfile } from '../../features/profile/profile'
 const AuthControls = () => {
 
     const { isLogged } = useSelector((state) => state.loginStatus)
-    const { firstName, lastName } = useSelector((state) => state.profile)
+    const { firstName } = useSelector((state) => state.profile)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -25,7 +25,7 @@ const AuthControls = () => {
             {isLogged ?
                 <React.Fragment>
                     <NavLink to="/profile">
-                        {firstName + ' ' + lastName}
+                        {firstName}
                     </NavLink>
                     <button onClick={() => logout()} className="main-nav-item">
                         <i className="fa-solid fa-arrow-right-from-bracket"></i>
